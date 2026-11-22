@@ -47,6 +47,29 @@ local function InitDB()
     if BearsHotSwapDB.defaultSet == nil then
         BearsHotSwapDB.defaultSet = "normal"
     end
+    -- If the configured default set doesn't exist, pick a saved set that isn't
+    -- used by any trigger (so leaving a form swaps to a real non-form set).
+    do
+        local found = false
+        for k in pairs(BearsHotSwapDB.sets or {}) do
+            if k:lower() == tostring(BearsHotSwapDB.defaultSet):lower() then found = true; break end
+        end
+        if not found then
+            local targets = {}
+            for _, t in ipairs(BearsHotSwapDB.triggers or {}) do
+                if t.setName then targets[t.setName:lower()] = true end
+            end
+            local names = {}
+            for k in pairs(BearsHotSwapDB.sets or {}) do table.insert(names, k) end
+            table.sort(names)
+            local cand
+            for _, k in ipairs(names) do
+                if not targets[k:lower()] then cand = k; break end
+            end
+            if not cand then cand = names[1] end
+            if cand then BearsHotSwapDB.defaultSet = cand end
+        end
+    end
     BHS.DB = BearsHotSwapDB
 end
 
@@ -142,15 +165,32 @@ end
 
 BHS.FindSetKey = FindSetKey
 
+local function DefaultCandidate()
+    if not BearsHotSwapDB or not BearsHotSwapDB.sets then return BearsHotSwapDB and BearsHotSwapDB.defaultSet end
+    local targets = {}
+    for _, t in ipairs(BearsHotSwapDB.triggers or {}) do
+        if t.setName then targets[t.setName:lower()] = true end
+    end
+    local names = {}
+    for k in pairs(BearsHotSwapDB.sets) do table.insert(names, k) end
+    table.sort(names)
+    for _, k in ipairs(names) do
+        if not targets[k:lower()] then return k end
+    end
+    return names[1]
+end
+
 local function ActiveSetName()
     for _, t in ipairs(BearsHotSwapDB.triggers or {}) do
         if HasSpellAura(t) then
             return FindSetKey(t.setName) or t.setName
         end
     end
-    -- fallback: if defaultSet missing, use first saved set
+    -- fallback: if defaultSet missing, prefer a set not used by any trigger
     local fk = FindSetKey(BearsHotSwapDB.defaultSet)
     if fk then return fk end
+    local cand = DefaultCandidate()
+    if cand then return cand end
     for k in pairs(BearsHotSwapDB.sets or {}) do return k end
     return BearsHotSwapDB.defaultSet
 end
@@ -158,10 +198,11 @@ end
 local currentTarget = nil
 local scheduledSet = nil
 local scheduleTimer = 0
+local checkTimer = 0
 
 local function CheckForm()
-    if UnitAffectingCombat and UnitAffectingCombat("player") then
-        BHS.Debug("CheckForm: in combat, skipping (auras may be secret)")
+    if InCombatLockdown and InCombatLockdown() then
+        BHS.Debug("CheckForm: in combat lockdown, skipping (auras may be secret)")
         return
     end
     local auras = {}
@@ -177,6 +218,9 @@ local function CheckForm()
     end
     local nowTarget = ActiveSetName()
     BHS.Debug("CheckForm: active=" .. tostring(nowTarget) .. " current=" .. tostring(currentTarget))
+    if nowTarget ~= currentTarget then
+        BHS.Debug("form changed: " .. tostring(currentTarget) .. " -> " .. tostring(nowTarget))
+    end
     if nowTarget == currentTarget then return end
     currentTarget = nowTarget
     BHS.currentTarget = currentTarget
@@ -193,6 +237,11 @@ end
 BHS.CheckForm = CheckForm
 
 frame:SetScript("OnUpdate", function(self, elapsed)
+    checkTimer = (checkTimer or 0) + elapsed
+    if checkTimer >= 0.5 then
+        checkTimer = 0
+        if BHS.CheckForm then BHS.CheckForm() end
+    end
     if scheduledSet then
         scheduleTimer = scheduleTimer + elapsed
         if scheduleTimer >= 0.4 then
@@ -203,8 +252,9 @@ frame:SetScript("OnUpdate", function(self, elapsed)
             if BHS.EquipSet then BHS.EquipSet(s) end
         end
     end
-    local inCombat = (InCombatLockdown and InCombatLockdown()) or (UnitAffectingCombat and UnitAffectingCombat("player"))
-    if BHS.pendingCombatSet and not inCombat then
+    local inCombat = (InCombatLockdown and InCombatLockdown())
+    local casting = (UnitCastingInfo and UnitCastingInfo("player")) or (UnitChannelInfo and UnitChannelInfo("player"))
+    if BHS.pendingCombatSet and not inCombat and not casting then
         local s = BHS.pendingCombatSet
         BHS.pendingCombatSet = nil
         if BHS.EquipSet then BHS.EquipSet(s) end

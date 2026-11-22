@@ -210,12 +210,14 @@ end
 local function EquipSet(name)
     InitDB()
     BHS.Debug("EquipSet: " .. tostring(name))
-    local inCombat = (InCombatLockdown and InCombatLockdown()) or (UnitAffectingCombat and UnitAffectingCombat("player"))
-    if inCombat then
+    local inCombat = (InCombatLockdown and InCombatLockdown())
+    local casting = (UnitCastingInfo and UnitCastingInfo("player")) or (UnitChannelInfo and UnitChannelInfo("player"))
+    if inCombat or casting then
         BHS.pendingCombatSet = name
-        print("|cff33ff99" .. ADDON .. ":|r in combat - '" .. name .. "' set queued.")
+        BHS.Debug("queued set '" .. tostring(name) .. "' (inCombat=" .. tostring(inCombat) .. ", casting=" .. tostring(casting ~= nil) .. ")")
         return
     end
+    BHS.Debug("equipping set '" .. tostring(name) .. "'")
     local resolved = name
     if BHS.FindSetKey then resolved = BHS.FindSetKey(name) or name end
     local set = BearsHotSwapDB.sets and BearsHotSwapDB.sets[resolved]
