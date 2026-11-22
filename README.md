@@ -16,15 +16,22 @@ Automatically swaps a saved equipment set when you shift in or out of a tracked 
 1. Copy the `Bears-Hot-Swap` folder into your `Interface/AddOns` directory.
 2. Enable the addon in-game.
 
-## Usage
-- `/bhs` — open the window (Sets / Triggers / Debug tabs).
-- `/bhs save <name>` — save current gear as a named set.
-- `/bhs <name>` — force equip a saved set.
+## How to use (UI does everything)
+1. Put on the gear you want for a situation (for example, your normal/caster gear).
+2. Open the window with `/bhs` (or the minimap button).
+3. On the **Sets** tab, type a name (e.g. `normal`) and click **Save**. The addon saves what you are wearing now. Repeat for each form/gear set (e.g. `bear`).
+4. On the **Triggers** tab, add a trigger for each form/aura: enter the spell ID or aura name, pick the set it should equip, and click **Add**. Or click **Discover** to auto-detect your shapeshift/stance forms and create triggers for them.
+5. Use the **Cycle** button (or `/bhs default <name>`) to set the default set worn when no tracked form/aura is active.
+6. Done — when you shift forms, Bears Hot Swap equips the matching set automatically after a short delay. Use **Equip** on a set row (or `/bhs <name>`) to force-equip manually.
+
+## Commands (optional shortcuts)
+- `/bhs` — open the window.
+- `/bhs save <name>` / `/bhs <name>` — save or force-equip a set.
 - `/bhs status` — list saved sets.
 - `/bhs trigger list|add <spellId> <setName>|remove <spellId>|set <key> <setName>` — manage triggers.
 - `/bhs discover` — auto-detect shapeshift/stance forms.
 - `/bhs default <setName>` — set the default set (no form).
-- `/bhs debug` — toggle the debug window.
+- `/bhs debug` — open the debug tab.
 
 ## Compatibility
 Built for **WoW:Forever** only (`## Interface: 16001`).

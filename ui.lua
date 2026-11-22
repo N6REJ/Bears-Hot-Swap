@@ -464,5 +464,14 @@ local function ToggleUI()
     if frame:IsShown() then frame:Hide() else frame:Show(); Refresh() end
 end
 
+local function ToggleDebug()
+    if BHS.InitDB then BHS.InitDB() end
+    CreateUI()
+    if not frame:IsShown() then frame:Show() end
+    SelectPage("debug")
+    Refresh()
+end
+
 BHS.ToggleUI = ToggleUI
+BHS.ToggleDebug = ToggleDebug
 BHS.RefreshUI = Refresh
