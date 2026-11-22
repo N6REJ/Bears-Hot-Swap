@@ -5,6 +5,8 @@
 ## Version: @project-version@
 ## SavedVariables: BearsHotSwapDB
 ## DefaultState: enabled
+## IconTexture: Interface\Icons\Ability_Racial_BearForm
+## X-Icon: Interface\Icons\Ability_Racial_BearForm
 ## X-Curse-Project-ID: 1823207
 
 core.lua
