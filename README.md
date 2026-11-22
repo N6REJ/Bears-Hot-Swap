@@ -9,7 +9,7 @@ Automatically swaps a saved equipment set when you shift in or out of a tracked 
 - Configurable triggers (aura → set) with a movable UI.
 - Auto-discovers shapeshift/stance forms on login.
 - Creates Blizzard Equipment Manager sets for BetterBags categorization (`Gear: <name>`).
-- Ignored slots, per-slot status, and debug tab.
+- Shows which saved set is currently worn; debug tab with diagnostics and logs.
 - Movable minimap button (top-right by default).
 
 ## Installation
