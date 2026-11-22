@@ -16,6 +16,7 @@ Automatically swaps a saved equipment set when you shift in or out of a tracked 
 1. Copy the `Bears-Hot-Swap` folder into your `Interface/AddOns` directory.
 2. Enable the addon in-game.
 
+
 ## How to use (UI does everything)
 1. Put on the gear you want for a situation (for example, your normal/caster gear).
 2. Open the window with `/bhs` (or the minimap button).
