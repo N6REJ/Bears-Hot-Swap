@@ -1,0 +1,19 @@
+package-as: Bears-Hot-Swap
+
+manual-changelog:
+    filename: CHANGELOG.md
+    markup-type: markdown
+
+ignore:
+    - README.md
+    - .github
+    - .packager
+    - .release
+    - .gitignore
+    - .gitattributes
+    - .idea
+    - AGENTS.md
+    - stats
+
+enable-nolib-creation: no
+enable-toc-creation: yes

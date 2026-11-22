@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: Bears Hot Swap
+## Notes: Automatically swaps equipment when you shift in or out of Bear Form.
+## Author: Bearesquishy
+## Version: @project-version@
+## SavedVariables: BearsHotSwapDB
+## DefaultState: enabled
+## X-Curse-Project-ID: 1823207
+
+core.lua
+swap.lua
+ui.lua
+minimap.lua
