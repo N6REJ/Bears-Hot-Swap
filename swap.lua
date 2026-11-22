@@ -30,6 +30,7 @@ local function SaveSet(name)
         local keys = {}
         for k, v in pairs(C_EquipmentSet) do table.insert(keys, k .. "=" .. type(v)) end
         BHS.Debug("C_EquipmentSet keys: " .. table.concat(keys, ", "))
+    end
     if type(SaveEquipmentSet) == "function" then
         local icon = BHS.ClassIcon or "Interface\\Icons\\INV_Misc_QuestionMark"
         -- If a trigger targets this set, use the aura's spell icon.
@@ -209,7 +210,8 @@ end
 local function EquipSet(name)
     InitDB()
     BHS.Debug("EquipSet: " .. tostring(name))
-    if InCombatLockdown and InCombatLockdown() then
+    local inCombat = (InCombatLockdown and InCombatLockdown()) or (UnitAffectingCombat and UnitAffectingCombat("player"))
+    if inCombat then
         BHS.pendingCombatSet = name
         print("|cff33ff99" .. ADDON .. ":|r in combat - '" .. name .. "' set queued.")
         return

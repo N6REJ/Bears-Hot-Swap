@@ -101,16 +101,16 @@ BHS.DiscoverForms = DiscoverForms
 BHS.GetBuffInfo = nil
 local function GetBuffInfo(unit, index)
     if type(UnitBuff) == "function" then
-        local name, _, _, _, _, _, _, _, _, _, spellId = UnitBuff(unit, index)
-        return name, spellId
+        local ok, name, _, _, _, _, _, _, _, _, spellId = pcall(UnitBuff, unit, index)
+        if ok then return name, spellId end
     elseif type(UnitAura) == "function" then
-        local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, index, "HELPFUL")
-        return name, spellId
+        local ok, name, _, _, _, _, _, _, _, spellId = pcall(UnitAura, unit, index, "HELPFUL")
+        if ok then return name, spellId end
     elseif type(C_UnitAuras) == "table" and type(C_UnitAuras.GetAuraDataByIndex) == "function" then
-        local aura = C_UnitAuras.GetAuraDataByIndex(unit, index, "HELPFUL")
-        if not aura then aura = C_UnitAuras.GetAuraDataByIndex(unit, index) end
-        if not aura then aura = C_UnitAuras.GetAuraDataByIndex(unit, index, 1) end
-        if aura then
+        local ok, aura = pcall(C_UnitAuras.GetAuraDataByIndex, unit, index, "HELPFUL")
+        if not ok or not aura then ok, aura = pcall(C_UnitAuras.GetAuraDataByIndex, unit, index) end
+        if not ok or not aura then ok, aura = pcall(C_UnitAuras.GetAuraDataByIndex, unit, index, 1) end
+        if ok and aura then
             local n = aura.name or aura.label or aura.spellName or aura.auraName
             local sid = aura.spellId or aura.spellID or aura.id
             return n, sid
@@ -160,6 +160,10 @@ local scheduledSet = nil
 local scheduleTimer = 0
 
 local function CheckForm()
+    if UnitAffectingCombat and UnitAffectingCombat("player") then
+        BHS.Debug("CheckForm: in combat, skipping (auras may be secret)")
+        return
+    end
     local auras = {}
     for i = 1, 40 do
         local name, sid = GetBuffInfo("player", i)
@@ -199,7 +203,8 @@ frame:SetScript("OnUpdate", function(self, elapsed)
             if BHS.EquipSet then BHS.EquipSet(s) end
         end
     end
-    if BHS.pendingCombatSet and not (InCombatLockdown and InCombatLockdown()) then
+    local inCombat = (InCombatLockdown and InCombatLockdown()) or (UnitAffectingCombat and UnitAffectingCombat("player"))
+    if BHS.pendingCombatSet and not inCombat then
         local s = BHS.pendingCombatSet
         BHS.pendingCombatSet = nil
         if BHS.EquipSet then BHS.EquipSet(s) end
@@ -229,6 +234,7 @@ end)
 frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("UNIT_AURA")
 frame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
+frame:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 SLASH_BHS1 = "/bhs"
 SlashCmdList["BHS"] = function(msg)
