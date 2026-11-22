@@ -24,6 +24,8 @@ Automatically swaps a saved equipment set when you shift in or out of a tracked 
 5. Use the **Cycle** button (or `/bhs default <name>`) to set the default set worn when no tracked form/aura is active.
 6. Done — when you shift forms, Bears Hot Swap equips the matching set automatically after a short delay. Use **Equip** on a set row (or `/bhs <name>`) to force-equip manually.
 
+> **BetterBags:** each saved set is also stored as a Blizzard Equipment Manager set named `Gear: <name>`, so BetterBags (and similar addons) categorize those items automatically.
+
 ## Commands (optional shortcuts)
 - `/bhs` — open the window.
 - `/bhs save <name>` / `/bhs <name>` — save or force-equip a set.
