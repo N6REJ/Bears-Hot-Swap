@@ -40,22 +40,22 @@ Charts are generated on the first run. Customize them freely; only the data tabl
 
 | Metric | Value |
 |---|---|
-| Total | 0 |
-| Day | 0 (partial) |
-| Week | 0 (partial) |
-| Month | 0 (partial) |
-| Year | 0 (partial) |
+| Total | 10 |
+| Day | 10 |
+| Week | 0 |
+| Month | 10 (partial) |
+| Year | 10 (partial) |
 
 | Field | Value |
 |---|---|
 | Repository | `N6REJ/Bears-Hot-Swap` |
 | CurseForge mod id | `1823207` |
 | Update mode | daily |
-| Period | week `2026-W47`, month `Nov 2026`, year `2026` |
+| Period | week `2026-W48`, month `Nov 2026`, year `2026` |
 | Window | 365 days |
-| Snapshots | 1 |
-| Partial | day, week, month, year |
-| Generated at | `2026-11-22T12:54:47.890Z` |
+| Snapshots | 2 |
+| Partial | month, year |
+| Generated at | `2026-11-23T13:54:08.988Z` |
 
 Source data: [`stats/downloads.json`](https://raw.githubusercontent.com/N6REJ/Bears-Hot-Swap/main/stats/downloads.json)
 
