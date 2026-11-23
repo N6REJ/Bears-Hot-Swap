@@ -3,30 +3,30 @@
   "owner": "N6REJ",
   "repo": "Bears-Hot-Swap",
   "visibility": "public",
-  "generatedAt": "2026-11-22T12:54:47.890Z",
+  "generatedAt": "2026-11-23T13:54:08.988Z",
   "stats": {
-    "total": 0,
-    "day": 0,
+    "total": 10,
+    "day": 10,
     "week": 0,
-    "month": 0,
-    "year": 0
+    "month": 10,
+    "year": 10
   },
   "partial": {
-    "day": true,
-    "week": true,
+    "day": false,
+    "week": false,
     "month": true,
     "year": true
   },
   "periods": {
     "day": {
-      "start": "2026-11-22",
-      "end": "2026-11-22",
-      "label": "2026-11-22"
+      "start": "2026-11-23",
+      "end": "2026-11-23",
+      "label": "2026-11-23"
     },
     "week": {
-      "start": "2026-11-16",
-      "end": "2026-11-22",
-      "label": "2026-W47"
+      "start": "2026-11-23",
+      "end": "2026-11-29",
+      "label": "2026-W48"
     },
     "month": {
       "start": "2026-11-01",
@@ -41,11 +41,12 @@
   },
   "snapshots": {
     "windowDays": 365,
-    "count": 1,
+    "count": 2,
     "firstDate": "2026-11-22",
-    "lastDate": "2026-11-22",
+    "lastDate": "2026-11-23",
     "series": {
-      "2026-11-22": 0
+      "2026-11-22": 0,
+      "2026-11-23": 10
     }
   },
   "profile": {
