@@ -41,7 +41,7 @@ Charts are generated on the first run. Customize them freely; only the data tabl
 | Metric | Value |
 |---|---|
 | Total | 13 |
-| Day | 1 |
+| Day | 0 |
 | Week | 3 |
 | Month | 13 (partial) |
 | Year | 13 (partial) |
@@ -53,9 +53,9 @@ Charts are generated on the first run. Customize them freely; only the data tabl
 | Update mode | daily |
 | Period | week `2026-W48`, month `Nov 2026`, year `2026` |
 | Window | 365 days |
-| Snapshots | 4 |
+| Snapshots | 5 |
 | Partial | month, year |
-| Generated at | `2026-11-25T13:45:22.681Z` |
+| Generated at | `2026-11-26T13:24:04.607Z` |
 
 Source data: [`stats/downloads.json`](https://raw.githubusercontent.com/N6REJ/Bears-Hot-Swap/main/stats/downloads.json)
 
